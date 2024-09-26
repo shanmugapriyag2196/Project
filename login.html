@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            font-size: bold;
+        }
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 50%;
+            text-align: center;
+        }
+        .login-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .login-container img {
+            max-width: 100px; /* Adjust image width */
+            margin-bottom: 20px; /* Space below the image */
+        }
+        .form-group label {
+            font-weight: bold;
+            text-align: left;
+            display: block;
+        }
+        .form-control {
+            height: 50px;
+            border-radius: 25px;
+            padding-left: 40px;
+            background-color: #f5f5f5;
+            border: 1px solid #ced4da;
+        }
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+        .input-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .btn-login {
+            background-color: #4022e9;
+            border: none;
+            border-radius: 25px;
+            color: #ffffff;
+            font-weight: bold;
+            height: 50px;
+            width: 100%;
+        }
+        .btn-login a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .btn-register {
+            background-color: transparent;
+            color: #d9534f;
+            border: 2px solid #2c11d89c;
+            border-radius: 25px;
+            height: 50px;
+            width: 100%;
+            font-weight: bold;
+        }
+        .btn-register a {
+            color: #000000;
+            text-decoration: none;
+        }
+        .form-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .form-inline .form-check-label {
+            margin-left: 5px;
+        }
+        .forgot-password {
+            color: #adb5bd;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .text-center a {
+            color: #d9534f;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Add your image here -->
+        <img src="C:\Users\priyag\Desktop\Python Projects\Project\download.png" alt="Logo">
+        
+        <h4>Login to your account</h4>
+        <form action="/login" method="POST">
+            <div class="form-group position-relative">
+                <label for="Username">User Name</label>
+                <i class="input-icon fa fa-envelope"></i>
+                <input type="Username" class="form-control" id="Username" name="Username" placeholder="Your User Name" required>
+            </div>
+            <div class="form-group position-relative">
+                <label for="password">Password</label>
+                <i class="input-icon fa fa-key"></i>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Your Password" required>
+            </div>
+            <div class="form-inline">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn btn-register mr-2"><a href="/C:/Users/priyag/Desktop/Python%20Projects/Project/create_account.html">Register</a></button>
+                <button type="submit" class="btn btn-login"><a href="/C:/Users/priyag/Desktop/Python%20Projects/Project/dashboard.html">Login</a></button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+import sqlite3
+import bcrypt
+
+# Connect to the SQLite database (creates a new file if it doesn't exist)
+conn = sqlite3.connect('user_data.db')
+cursor = conn.cursor()
+
+# Create a table to store usernames and passwords if it doesn't already exist
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+)
+''')
+conn.commit()
+
+def create_user(username, password):
+    # Hash the password before storing it
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+    try:
+        cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, hashed_password))
+        conn.commit()
+        print("User created successfully!")
+    except sqlite3.IntegrityError:
+        print("Username already exists! Please choose another one.")
+
+def update_password(username, new_password):
+    # Hash the new password
+    hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+
+    # Update the password in the database
+    cursor.execute('UPDATE users SET password = ? WHERE username = ?', (hashed_password, username))
+    conn.commit()
+
+    if cursor.rowcount == 0:
+        print("User not found!")
+    else:
+        print("Password updated successfully!")
+
+def login_user(username, password):
+    cursor.execute('SELECT password FROM users WHERE username = ?', (username,))
+    result = cursor.fetchone()
+
+    if result is None:
+        print("Username not found!")
+        return False
+
+    stored_password = result[0]
+
+    # Check if the provided password matches the stored hashed password
+    if bcrypt.checkpw(password.encode('utf-8'), stored_password.encode('utf-8')):
+        print("Login successful!")
+        return True
+    else:
+        print("Invalid password!")
+        return False
+
+# Sample usage
+# To create a new user
+create_user('user1', 'password123')
+
+# To update a user's password
+update_password('user1', 'newpassword456')
+
+# To log in a user
+login_user('user1', 'newpassword456')
+
+# Close the database connection when done
+conn.close()

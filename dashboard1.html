@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>     
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .dashboard-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 50%;
+            text-align: center;
+        }
+        .dashboard-container img {
+            max-width: 100px; /* Adjusted image width to be smaller */
+            margin-right: 20px; /* Space between the image and button */
+        }
+        /* Flex container for each image and button pair */
+        .button-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Align items to the left */
+            margin-bottom: 20px;
+        }
+        /* Yellow button for Standard Meeting Template */
+        .btn-standard {
+            background-color: #f0ad4e;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            height: 50px;
+            width: 70%;
+        }
+        /* Green button for Thor Log Reviewer */
+        .btn-thor {
+            background-color: #28a745;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            height: 50px;
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <img src="C:/Users/priyag/Desktop/Python Projects/Project/download.png" alt="Logo">
+        <div class="button-container">
+            <img src="C:/Users/priyag/Pictures/Standard Temp Image.png" alt="Standard Template Logo">
+            <button type="button" class="btn btn-standard" onclick="window.location.href='Standard_MeetingTemp.html';">Standard Meeting Template</button>
+        </div>
+        <div class="button-container">
+            <img src="C:/Users/priyag/Pictures/Thor Reviewer image.png" alt="Thor Reviewer Logo">
+            <button type="button" class="btn btn-thor" onclick="window.location.href='Thor_LogReviewer.html';">Thor Log Reviewer</button>
+        </div>
+    </div>
+</body>
+</html>
