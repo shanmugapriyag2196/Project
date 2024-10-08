@@ -25,7 +25,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            position: relative; /* Allow absolute positioning of child elements */
+            position: relative;
         }
 
         .chat-header {
@@ -34,21 +34,20 @@
             padding: 15px;
             text-align: center;
             font-size: 1.25rem;
-            position: relative; /* To allow absolute positioning of the refresh icon */
+            position: relative;
         }
 
-        /* Refresh Icon */
         .refresh-icon {
             position: absolute;
             top: 15px;
             right: 15px;
             font-size: 1.5rem;
             cursor: pointer;
-            color: white; /* Icon color */
+            color: white;
         }
 
         .refresh-icon:hover {
-            color: #f8f9fa; /* Lighter hover effect */
+            color: #f8f9fa;
         }
 
         .chat-body {
@@ -120,50 +119,43 @@
             background-color: #0056b3;
         }
 
-        /* Upload input style */
         .upload-button {
             position: relative;
         }
 
         .upload-button input[type="file"] {
-            display: none; /* Hide the default file input */
+            display: none;
         }
 
         .upload-icon {
             width: 30px;
             height: 30px;
             cursor: pointer;
-            color: white; /* Icon color */
-            background-color: #061b27; /* Blue background */
+            color: white;
+            background-color: #061b27;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-weight: bold; /* Bold text */
-            font-size: 1.5rem; /* Size of the emoji or icon */
+            font-weight: bold;
+            font-size: 1.5rem;
         }
-
     </style>
 </head>
 <body>
 
     <div class="chat-container">
-        <!-- Chat Header with Refresh Icon -->
         <div class="chat-header">
             Standard Meeting Template
             <div class="refresh-icon" onclick="refreshPage()">🔄</div>
         </div>
 
-        <!-- Chat Body (where messages appear) -->
-        <div class="chat-body" id="chatBody">
-            <!-- Messages will be appended here dynamically, ensure it retains formatting -->
-        </div>
+        <div class="chat-body" id="chatBody"></div>
         
-        <!-- Chat Footer (input area) -->
         <div class="chat-footer">
             <div class="upload-button">
                 <label for="fileInput" class="upload-icon">
-                    📎 <!-- Use any emoji or icon here -->
+                    📎
                 </label>
                 <input type="file" id="fileInput" accept=".txt,.json,.csv,.md,.pdf" onchange="handleFileUpload(event)">
             </div>
@@ -172,24 +164,34 @@
         </div>
     </div>
 
-    <!-- JavaScript to handle chat interactions -->
     <script>
-        // System Prompt Configuration (for internal assistant logic)
-        const systemPrompt = `You are an AI assistant designed to create standardized meeting notes from a given transcript and answer follow-up questions based on the meeting transcript. 
-        If asked /help, respond with: 
-        "Hello! I can help you to create Standardize Template for your meeting notes. To get started, please provide the notes from your meeting. I will extract and reorganize the provided information into the following structured template:
-            1. Meeting Title
-            2. Date and Time
-            3. Attendees
-            4. Agenda
-            5. Key Points Discussed
-            6. Action Items
-            7. Conclusions
-            8. Next Meeting Details.
-        Feel free to paste your meeting notes here!"
-        
-        If questions outside the scope of the transcript are asked, respond with: 
-        "I am an AI assistant focused on creating standardized meeting templates and cannot answer this question."`;
+        // Set the SystemPrompt variable
+        const SystemPrompt = `
+You are an AI assistant designed to create standardized meeting notes from a given transcript and answer follow-up questions based on the meeting transcript. If asked /help, respond with: 
+"Hello! I can help you to create Standardized Template for your meeting notes. To get started, please provide the notes from your meeting. I will extract and reorganize the provided information into the following structured template:
+1. Meeting Title
+2. Date and Time
+3. Attendees
+4. Agenda
+5. Key Points Discussed
+6. Action Items
+7. Conclusions
+8. Next Meeting Details.
+Feel free to paste your meeting notes here!"
+
+If asked questions outside the scope of the transcript, respond with: 
+"I am an AI assistant focused on creating standardized meeting templates and cannot answer this question."
+1. Welcome the user.
+2. Extract and reorganize the provided information into a detailed, structured template.
+`;
+
+        // Collect the SystemPrompt first
+        const Prompts = [
+            {
+                role: "system",
+                content: SystemPrompt
+            }
+        ];
 
         function sendMessage() {
             const inputField = document.getElementById('userInput');
@@ -202,139 +204,140 @@
             // Append user's message to the chat
             appendMessage('user', message);
 
-            // Check for /help or process transcript input
-            if (message.toLowerCase() === '/help') {
-                const helpResponse = "Hello! I can help you create a standardized template for your meeting notes. Please provide the notes from your meeting, and I will organize them into the following sections:\n1. Meeting Title\n2. Date and Time\n3. Attendees\n4. Agenda\n5. Key Points Discussed\n6. Action Items\n7. Conclusions\n8. Next Meeting Details.";
-                appendMessage('chatgpt', helpResponse);
-            } else {
-                // Simulate processing the meeting transcript
-                setTimeout(() => {
-                    const processedResponse = processMeetingNotes(message);
-                    appendMessage('chatgpt', processedResponse);
-                }, 1000);
-            }
+            // Collect the user input
+            Prompts.push({
+                role: "user",
+                content: message
+            });
+
+            // Simulate calling the AI API (replace with actual API call in production)
+            setTimeout(() => {
+                const response = processMeetingNotes(message); // Simulating API response
+                Prompts.push({
+                    role: "assistant",
+                    content: response
+                });
+                appendMessage('chatgpt', response);
+            }, 1000);
 
             // Clear the input field
             inputField.value = '';
         }
 
         // Function to append messages to the chat body
-function appendMessage(sender, message) {
-    const chatBody = document.getElementById('chatBody');
+        function appendMessage(sender, message) {
+            const chatBody = document.getElementById('chatBody');
 
-    // Create a new message element
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message');
-    if (sender === 'user') {
-        messageDiv.classList.add('user-message');
-    } else {
-        messageDiv.classList.add('chatgpt-message');
-    }
+            // Create a new message element
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            if (sender === 'user') {
+                messageDiv.classList.add('user-message');
+            } else {
+                messageDiv.classList.add('chatgpt-message');
+            }
 
-    // Message content
-    const messageContent = document.createElement('pre'); // Use <pre> for preserving formatting
-    messageContent.classList.add('message-content');
-    messageContent.textContent = message; // Use textContent to avoid HTML rendering
+            // Message content
+            const messageContent = document.createElement('pre'); // Use <pre> for preserving formatting
+            messageContent.classList.add('message-content');
+            messageContent.textContent = message; // Use textContent to avoid HTML rendering
 
-    // Append the content to the message div
-    messageDiv.appendChild(messageContent);
+            // Append the content to the message div
+            messageDiv.appendChild(messageContent);
 
-    // Append the message div to the chat body
-    chatBody.appendChild(messageDiv);
+            // Append the message div to the chat body
+            chatBody.appendChild(messageDiv);
 
-    // Scroll to the bottom of the chat body
-    chatBody.scrollTop = chatBody.scrollHeight;
-}
+            // Scroll to the bottom of the chat body
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
 
-     // Process the meeting notes and extract information
+        // Process the meeting notes and extract information
         function processMeetingNotes(notes) {
-    const sections = {
-        'Meeting Title': '',
-        'Date and Time': '',
-        'Attendees': '',
-        'Agenda': '',
-        'Key Points Discussed': '',
-        'Action Items': '',
-        'Conclusions': '',
-        'Next Meeting Details': ''
-    };
+            const sections = {
+                'Meeting Title': '',
+                'Date and Time': '',
+                'Attendees': '',
+                'Agenda': '',
+                'Key Points Discussed': '',
+                'Action Items': '',
+                'Conclusions': '',
+                'Next Meeting Details': ''
+            };
 
-    // Match Meeting Title
-    const titleMatch = notes.match(/Meeting Title:\s*(.*)/);
-    sections['Meeting Title'] = titleMatch ? titleMatch[1].trim() : sections['Meeting Title'];
+            // Match Meeting Title
+            const titleMatch = notes.match(/Meeting Title:\s*(.*)/);
+            sections['Meeting Title'] = titleMatch ? titleMatch[1].trim() : sections['Meeting Title'];
 
-    // Match Date and Time
-    const dateTimeMatch = notes.match(/Date and Time:\s*(.*)/);
-    sections['Date and Time'] = dateTimeMatch ? dateTimeMatch[1].trim() : sections['Date and Time'];
+            // Match Date and Time
+            const dateTimeMatch = notes.match(/Date and Time:\s*(.*)/);
+            sections['Date and Time'] = dateTimeMatch ? dateTimeMatch[1].trim() : sections['Date and Time'];
 
-    // Match Attendees
-    const attendeesMatch = notes.match(/Attendees:\s*(.*)/);
-    sections['Attendees'] = attendeesMatch ? attendeesMatch[1].trim() : sections['Attendees'];
+            // Match Attendees
+            const attendeesMatch = notes.match(/Attendees:\s*(.*)/);
+            sections['Attendees'] = attendeesMatch ? attendeesMatch[1].trim() : sections['Attendees'];
 
-    // Match Agenda
-    const agendaMatch = notes.match(/Agenda:\s*(.*?)(?=Key Points Discussed:)/s);
-    sections['Agenda'] = agendaMatch ? agendaMatch[1].trim() : sections['Agenda'];
+            // Match Agenda
+            const agendaMatch = notes.match(/Agenda:\s*(.*?)(?=Key Points Discussed:)/s);
+            sections['Agenda'] = agendaMatch ? agendaMatch[1].trim() : sections['Agenda'];
 
-    // Match Key Points Discussed
-    const keyPointsMatch = notes.match(/Key Points Discussed:\s*(.*?)(?=Action Items:)/s);
-    sections['Key Points Discussed'] = keyPointsMatch ? keyPointsMatch[1].trim() : sections['Key Points Discussed'];
+            // Match Key Points Discussed
+            const keyPointsMatch = notes.match(/Key Points Discussed:\s*(.*?)(?=Action Items:)/s);
+            sections['Key Points Discussed'] = keyPointsMatch ? keyPointsMatch[1].trim() : sections['Key Points Discussed'];
 
-    // Match Action Items
-    const actionItemsMatch = notes.match(/Action Items:\s*(.*?)(?=Conclusions:)/s);
-    sections['Action Items'] = actionItemsMatch ? actionItemsMatch[1].trim() : sections['Action Items'];
+            // Match Action Items
+            const actionItemsMatch = notes.match(/Action Items:\s*(.*?)(?=Conclusions:)/s);
+            sections['Action Items'] = actionItemsMatch ? actionItemsMatch[1].trim() : sections['Action Items'];
 
-    // Match Conclusions
-    const conclusionsMatch = notes.match(/Conclusions:\s*(.*?)(?=Next Meeting Details:)/s);
-    sections['Conclusions'] = conclusionsMatch ? conclusionsMatch[1].trim() : sections['Conclusions'];
+            // Match Conclusions
+            const conclusionsMatch = notes.match(/Conclusions:\s*(.*?)(?=Next Meeting Details:)/s);
+            sections['Conclusions'] = conclusionsMatch ? conclusionsMatch[1].trim() : sections['Conclusions'];
 
-    // Match Next Meeting Details
-    const nextMeetingMatch = notes.match(/Next Meeting Details:\s*(.*)/);
-    sections['Next Meeting Details'] = nextMeetingMatch ? nextMeetingMatch[1].trim() : sections['Next Meeting Details'];
+            // Match Next Meeting Details
+            const nextMeetingMatch = notes.match(/Next Meeting Details:\s*(.*)/);
+            sections['Next Meeting Details'] = nextMeetingMatch ? nextMeetingMatch[1].trim() : sections['Next Meeting Details'];
 
-    const response = `
-1. **Meeting Title:** ${sections['Meeting Title']}
-2. **Date and Time:** ${sections['Date and Time']}
-3. **Attendees:**
-${sections['Attendees'].split(',').map(attendee => `- ${attendee.trim()}`).join('\n')}
-4. **Agenda:**
-${sections['Agenda']}
-5. **Key Points Discussed:**
-${sections['Key Points Discussed']}
-6. **Action Items:**
-${sections['Action Items']}
-7. **Conclusions:**
-${sections['Conclusions']}
-8. **Next Meeting Details:**
-${sections['Next Meeting Details']}
-`.trim(); // Trim whitespace
+            // Construct the structured template
+            const structuredNotes = `
+Meeting Title: ${sections['Meeting Title']}
+Date and Time: ${sections['Date and Time']}
+Attendees: ${sections['Attendees']}
+Agenda: ${sections['Agenda']}
+Key Points Discussed: ${sections['Key Points Discussed']}
+Action Items: ${sections['Action Items']}
+Conclusions: ${sections['Conclusions']}
+Next Meeting Details: ${sections['Next Meeting Details']}
+            `;
 
-    return response; // Return plain text response
-}
+            return structuredNotes;
+        }
 
-
-        // Handle file upload and display its content in the input field
         function handleFileUpload(event) {
             const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
+            if (!file) return;
 
-                // When file reading is complete, display the content in the input field
-                reader.onload = function(e) {
-                    const fileContent = e.target.result;
-                    const inputField = document.getElementById('userInput');
-                    inputField.value = fileContent;  // Insert the file content into the input field
-                };
-
-                // Read the file as text
-                reader.readAsText(file);
-            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                // Here you can process the content as needed, e.g., append to chat
+                appendMessage('user', content);
+                Prompts.push({
+                    role: "user",
+                    content: content
+                });
+                const response = processMeetingNotes(content);
+                Prompts.push({
+                    role: "assistant",
+                    content: response
+                });
+                appendMessage('chatgpt', response);
+            };
+            reader.readAsText(file);
         }
 
-        // Function to refresh the page (for the refresh icon)
         function refreshPage() {
-            location.reload();
+            window.location.reload();
         }
     </script>
-
 </body>
 </html>

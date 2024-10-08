@@ -7,7 +7,7 @@ app.secret_key = 'your_secret_key'  # Change this to a random secret key
 users = {
     'testuser': {'username': 'Priya', 'password': '12345', 'email': 'shanmugapriyag@valueglobal.net'};
     'testuser1': {'username': 'Harshita', 'password': '12345', 'email': 'harshitar@valueglobal.net'};
-    'testuser1': {'username': 'Shanmuga', 'password': 'Priya2196', 'email': 'gshanmugapriyaece@gmail.com'}
+    'testuser1': {'username': 'Shanmuga', 'password': 'Priya2196', 'email': 'gshanmugapriyaece@gmail.com'};
 }
 
 @app.route('/')
@@ -23,7 +23,7 @@ def login():
     if username in users:
         if users[username]['password'] == password:
             flash('Login successful!', 'success')
-            return redirect(url_for('dashboard'))  # Redirect to dashboard
+            return redirect(url_for('/dashboard'))  # Redirect to dashboard
         else:
             flash('Invalid password', 'danger')
     else:

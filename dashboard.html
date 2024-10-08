@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,7 @@
 
         body {
             background-color: #f8f9fa;
+            position: relative;
         }
 
         .dashboard {
@@ -24,21 +26,84 @@
 
         .header {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             background-color: #fff;
+            height: 12vh;
             padding: 10px 20px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            position: relative;
+        }
+
+        /* Sidebar Menu Icon Box Container */
+        .menu-container {
+            position: absolute;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #007bff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .menu-icon {
+            font-size: 20px;
+            color: white;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: white;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 100px;
+        }
+
+        .sidebar a {
+            padding: 15px;
+            text-decoration: none;
+            font-size: 15px;
+            color: black;
+            display: block;
+            transition: 0.3s;
+            min-width: 200px; /* Ensure sidebar options have minimum width */
+            font-weight: bold;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 70px;
+            left: 200px;
+            font-size: 20px;
+            color :black;
+        }
+
+        .logo {
+            position: absolute;
+            left: 60px; /* Adjusted position due to the menu container */
         }
 
         .logo img {
-            height: 50px;
+            height: 60px;
         }
 
         .title {
             font-size: 24px;
             font-weight: bold;
+            text-align: center;
         }
 
         .cards {
@@ -56,6 +121,7 @@
             box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
             margin: 10px 0;
+            cursor: pointer;
         }
 
         .card h3 {
@@ -71,13 +137,26 @@
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Header Section -->
+    <!-- Sidebar -->
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">&times;</a>
+        <a href="#">Home</a>
+        <a href="Roles.html">Roles & Permission</a>
+        <a href="#">Create New Bot</a>
+        <a href="#">Log Out</a>
+    </div>
+
+    <!-- Menu Icon in Header with Box Container -->
     <div class="header">
+        <div class="menu-container" onclick="openSidebar()">
+            <i class="fas fa-bars menu-icon"></i>
+        </div>
         <div class="logo">
             <!-- Add your AutoGPT image here -->
-            <img src="C:\Users\Harshitar\Desktop\download.png" alt="AutoGPT Logo">
+            <img src="C:\Users\priyag\Desktop\Python Projects\Project\download.png" alt="AutoGPT Logo">
         </div>
         <div class="title">
             AutoGPT
@@ -87,20 +166,32 @@
     <!-- Cards Section -->
     <div class="dashboard">
         <div class="cards">
-            <div class="card">
+            <div class="card" onclick="window.location.href='Standard_MeetingTemp.html'">
                 <i class="fas fa-file-alt card-icon"></i>
                 <h3>Standardized Meeting Template</h3>
             </div>
-            <div class="card">
+            <div class="card" onclick="window.location.href='Thor_LogReviewer.html'">
                 <i class="fas fa-list-alt card-icon"></i>
                 <h3>Thor Log Reviewer</h3>
             </div>
-            <div class="card">
+            <div class="card" onclick="window.location.href='Blog_Writer.html'">
                 <i class="fas fa-blog card-icon"></i>
                 <h3>Blog Writer</h3>
             </div>
         </div>
     </div>
 
+    <!-- JavaScript to handle sidebar toggle -->
+    <script>
+        function openSidebar() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+
+        function closeSidebar() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+    </script>
+
 </body>
+
 </html>

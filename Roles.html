@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roles</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;   
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .role {
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: center;
+            background-color: #fff;
+            height: 12vh;
+            padding: 10px 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            position: relative; /* Make relative to position the logo */
+        }
+
+        .logo {
+            position: absolute;
+            left: 20px; /* Position the logo on the left */
+        }
+
+        .logo img {
+            height: 60px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center; /* Center the text */
+        }
+
+        .cards {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: #f8f9fa;
+            width: 30%; /* Adjust width to fit 4% gap between the two cards */
+            padding: 10px;
+            text-align: left;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .card:first-child {
+            margin-right: 4%; /* Add 4% margin to the first card */
+        }
+
+        .card h3 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            font-size: 30px;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo">
+            <!-- Add your AutoGPT image here -->
+            <img src="C:\Users\priyag\Desktop\Python Projects\Project\download.png" alt="AutoGPT Logo">
+        </div>
+    </div>
+
+    <!-- Cards Section -->
+    <div class="role">
+        <div class="cards">
+            <div class="card">
+                <i class="fas fa-file-alt card-icon"></i>
+                <h3>Roles</h3>
+            </div>
+            <div class="card">
+                <i class="fas fa-list-alt card-icon"></i>
+                <h3>Permission</h3>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
